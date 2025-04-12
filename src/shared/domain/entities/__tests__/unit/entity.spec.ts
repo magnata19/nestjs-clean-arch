@@ -11,9 +11,9 @@ class StubEntity extends Entity<StubType> {
 }
 
 describe('Entity unit tests', () => {
-  let props;
-  let entity;
-  let id;
+  let props: any;
+  let entity: any;
+  let id: any;
 
   beforeEach(() => {
     props = {
