@@ -7,6 +7,8 @@ describe('EnvConfigService unit tests', () => {
   let sut: EnvConfigService; // sut = System Under Tests
 
   beforeEach(async () => {
+    process.env.PORT = '3000';
+    process.env.NODE_ENV = 'test';
     const module: TestingModule = await Test.createTestingModule({
       imports: [EnvConfigModule.forRoot()],
       providers: [EnvConfigService],
