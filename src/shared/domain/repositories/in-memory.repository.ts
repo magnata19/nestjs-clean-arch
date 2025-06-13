@@ -1,9 +1,8 @@
 import { NotFoundError } from "@/shared/errors/not-found-error";
 import { Entity } from "../entities/entity";
-import { Repository } from "./repository-contracts";
-import { en } from "@faker-js/faker/.";
+import { RepositoryInterface } from "./repository-contracts";
 
-export abstract class InMemoryRepository<E extends Entity> implements Repository<E> {
+export abstract class InMemoryRepository<E extends Entity> implements RepositoryInterface<E> {
 
   items: E[] = [];
 
