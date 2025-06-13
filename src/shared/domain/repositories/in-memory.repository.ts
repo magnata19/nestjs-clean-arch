@@ -34,7 +34,7 @@ export abstract class InMemoryRepository<E extends Entity> implements Repository
     const _id = `${id}`
     const entity = this.items.find(item => item.id === _id);
     if (!entity) {
-      throw new NotFoundError();
+      throw new NotFoundError('Entity not found');
     }
     return entity
   }
@@ -42,7 +42,7 @@ export abstract class InMemoryRepository<E extends Entity> implements Repository
   protected _getIndex(id: string): number {
     const index = this.items.findIndex(item => item.id === id);
     if (index === -1) {
-      throw new NotFoundError();
+      throw new NotFoundError('Entity not found');
     }
     return index;
   }
