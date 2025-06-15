@@ -119,7 +119,7 @@ export class SearchResult<E extends Entity, Filter = string> {
       total: this.total,
       currentPage: this.currentPage,
       perPage: this.perPage,
-      lasPage: this.lastPage,
+      lastPage: this.lastPage,
       sort: this.sort,
       sortDir: this.sortDir,
       filter: this.filter
@@ -128,8 +128,9 @@ export class SearchResult<E extends Entity, Filter = string> {
 }
 
 export interface SearchableRepositoryInterface<E extends Entity,
-  SearchInput, // tipo de entrada para a pesquisa ex: nome, email, etc
-  SearchOutput // tipo de saida da pesquisa ex: numero de resultados, lista de entidades, etc
+  Filter = string,
+  SearchInput = SearchParams, // tipo de entrada para a pesquisa ex: nome, email, etc
+  SearchOutput = SearchResult<E, Filter> // tipo de saida da pesquisa ex: numero de resultados, lista de entidades, etc
 > extends RepositoryInterface<E> {
-  search(input: SearchParams): Promise<SearchResult<E, any>>;
+  search(input: SearchInput): Promise<SearchOutput>;
 }

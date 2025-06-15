@@ -1,4 +1,4 @@
-import { SearchParams } from "../searchable-repository-contract"
+import { SearchParams, SearchResult } from "../searchable-repository-contract"
 
 describe("SeachableRepositoryContract unit test", () => {
   describe("SeachParam tests", () => {
@@ -122,6 +122,76 @@ describe("SeachableRepositoryContract unit test", () => {
       params.forEach((i) => {
         expect(new SearchParams({ filter: i.filter }).filter).toBe(i.expected);
       })
+    })
+  })
+
+  describe('SearchResult tests', () => {
+    it('constructor', () => {
+      let sut = new SearchResult({
+        items: ['test1', 'test2', 'test3', 'test4' as any],
+        total: 4,
+        currentPage: 1,
+        perPage: 2,
+        sort: null,
+        sortDir: null,
+        filter: null
+      });
+
+      expect(sut.toJson()).toStrictEqual({
+        items: ['test1', 'test2', 'test3', 'test4' as any],
+        total: 4,
+        currentPage: 1,
+        perPage: 2,
+        lastPage: 2,
+        sort: null,
+        sortDir: null,
+        filter: null
+      })
+
+      sut = new SearchResult({
+        items: ['test1', 'test2', 'test3', 'test4' as any],
+        total: 4,
+        currentPage: 1,
+        perPage: 2,
+        sort: 'name',
+        sortDir: 'asc',
+        filter: 'test'
+      });
+
+      expect(sut.toJson()).toStrictEqual({
+        items: ['test1', 'test2', 'test3', 'test4' as any],
+        total: 4,
+        currentPage: 1,
+        perPage: 2,
+        lastPage: 2,
+        sort: 'name',
+        sortDir: 'asc',
+        filter: 'test'
+      })
+
+      sut = new SearchResult({
+        items: ['test1', 'test2', 'test3', 'test4' as any],
+        total: 4,
+        currentPage: 1,
+        perPage: 10,
+        sort: 'name',
+        sortDir: 'asc',
+        filter: 'test'
+      });
+
+      expect(sut.lastPage).toBe(1);
+
+      sut = new SearchResult({
+        items: ['test1', 'test2', 'test3', 'test4' as any],
+        total: 54,
+        currentPage: 1,
+        perPage: 10,
+        sort: 'name',
+        sortDir: 'asc',
+        filter: 'test'
+      });
+
+      expect(sut.lastPage).toBe(6);
     })
   })
 })
