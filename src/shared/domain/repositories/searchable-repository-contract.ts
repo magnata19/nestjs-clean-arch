@@ -132,5 +132,6 @@ export interface SearchableRepositoryInterface<E extends Entity,
   SearchInput = SearchParams, // tipo de entrada para a pesquisa ex: nome, email, etc
   SearchOutput = SearchResult<E, Filter> // tipo de saida da pesquisa ex: numero de resultados, lista de entidades, etc
 > extends RepositoryInterface<E> {
+  searchableFields: string[]; // campos que podem ser pesquisados
   search(input: SearchInput): Promise<SearchOutput>;
 }
