@@ -18,12 +18,12 @@ export class SearchParams {
   protected _sortDir?: SortDirection | null;
   protected _filter?: string | null;
 
-  constructor(props: SearchProps) {
-    this._page = props.page;
-    this._perPage = props.perPage;
-    this._sort = props.sort;
-    this._sortDir = props.sortDir;
-    this._filter = props.filter;
+  constructor(props: SearchProps = {}) {
+    this.page = props.page;
+    this.perPage = props.perPage;
+    this.sort = props.sort;
+    this.sortDir = props.sortDir;
+    this.filter = props.filter;
   }
 
   get page() {
@@ -31,9 +31,9 @@ export class SearchParams {
   }
 
   private set page(value: number) {
-    let _page: number = +value;
+    let _page = +value;
     if (Number.isNaN(_page) || _page <= 0 || parseInt(_page as any) !== _page) {
-      this._page = 1;
+      _page = 1;
     }
     this._page = _page;
   }
@@ -43,8 +43,10 @@ export class SearchParams {
   }
 
   private set perPage(value: number) {
-    let _perPage: number = +value;
-    if (Number.isNaN(_perPage) || _perPage <= 0 || parseInt(_perPage as any) !== _perPage) {
+    let _perPage: number = value === (true as any) ? this._perPage : +value;
+    if (Number.isNaN(_perPage) ||
+      _perPage <= 0 ||
+      parseInt(_perPage as any) !== _perPage) {
       _perPage = this._perPage;
     }
     this._perPage = _perPage;
@@ -61,7 +63,8 @@ export class SearchParams {
   get sortDir() {
     return this._sortDir;
   }
-  private set sortDir(value: SortDirection | null) {
+
+  private set sortDir(value: string | null) {
     if (!this.sort) {
       this._sortDir = null;
       return;
