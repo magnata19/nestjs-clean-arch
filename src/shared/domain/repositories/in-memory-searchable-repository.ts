@@ -37,6 +37,8 @@ export abstract class InMemorySearchableRepository<E extends Entity> extends InM
   }
 
   protected async applyPaginate(items: E[], page: SearchParams['page'], perPage: SearchParams['perPage']): Promise<E[]> {
-    return;
+    const start = (page - 1) * perPage;
+    const end = start + perPage;
+    return items.slice(start, end);
   }
 }
