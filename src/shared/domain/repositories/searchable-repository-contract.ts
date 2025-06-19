@@ -21,14 +21,14 @@ export type SearchResultProps<E extends Entity, Filter> = {
   filter: Filter | null;
 }
 
-export class SearchParams {
+export class SearchParams<Filter = string> {
   protected _page?: number;
   protected _perPage = 15;
   protected _sort?: string | null;
   protected _sortDir?: SortDirection | null;
-  protected _filter?: string | null;
+  protected _filter?: Filter | null;
 
-  constructor(props: SearchProps = {}) {
+  constructor(props: SearchProps<Filter> = {}) {
     this.page = props.page;
     this.perPage = props.perPage;
     this.sort = props.sort;
@@ -83,12 +83,12 @@ export class SearchParams {
     this._sortDir = dir !== 'asc' && dir !== 'desc' ? 'desc' : dir;
   }
 
-  get filter() {
+  get filter(): Filter | null {
     return this._filter;
   }
 
-  private set filter(value: string | null) {
-    this._filter = value === null || value === '' || value === undefined ? null : `${value}`;
+  private set filter(value: Filter | null) {
+    this._filter = value === null || value === '' || value === undefined ? null : (`${value}` as any);
   }
 }
 
@@ -129,7 +129,7 @@ export class SearchResult<E extends Entity, Filter = string> {
 
 export interface SearchableRepositoryInterface<E extends Entity,
   Filter = string,
-  SearchInput = SearchParams, // tipo de entrada para a pesquisa ex: nome, email, etc
+  SearchInput = SearchParams<Filter>, // tipo de entrada para a pesquisa ex: nome, email, etc
   SearchOutput = SearchResult<E, Filter> // tipo de saida da pesquisa ex: numero de resultados, lista de entidades, etc
 > extends RepositoryInterface<E> {
   searchableFields: string[]; // campos que podem ser pesquisados
