@@ -63,4 +63,29 @@ describe("UserInMemoryRepository Unit Tests", () => {
     expect(spyFilter).toHaveBeenCalled();
     expect(itemsFiltered).toStrictEqual([items[0], items[2]]);
   })
+
+  it('should sort by createdAt when sort is null - applySort', async () => {
+
+    const createdAt = new Date();
+
+    const items = [
+      new UserEntity(UserDataBuilder({ name: 'John Doe', createdAt })),
+      new UserEntity(UserDataBuilder({ name: 'Jane Doe', createdAt: new Date(createdAt.getTime() + 1) })),
+      new UserEntity(UserDataBuilder({ name: 'John Smith', createdAt: new Date(createdAt.getTime() + 2) })),
+    ];
+
+    const itemsSorted = await sut['applySort'](items, null, null)
+    expect(itemsSorted).toStrictEqual([items[2], items[1], items[0]])
+  })
+
+  it('should sort by createdAt when sort is null - applySort', async () => {
+    const items = [
+      new UserEntity(UserDataBuilder({ name: 'John Doe' })),
+      new UserEntity(UserDataBuilder({ name: 'Jane Doe' })),
+      new UserEntity(UserDataBuilder({ name: 'John Smith' })),
+    ];
+
+    const itemsSorted = await sut['applySort'](items, 'name', 'asc')
+    expect(itemsSorted).toStrictEqual([items[1], items[0], items[2]])
+  })
 })
