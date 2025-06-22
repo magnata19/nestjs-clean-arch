@@ -2,6 +2,7 @@ import { th } from "@faker-js/faker/.";
 import { BadRequestError } from "../errors/bad-request-error";
 import { UserRepository } from "@/users/domain/repositories/user.repository";
 import { UserEntity } from "@/users/domain/entities/user.entity";
+import { HashProvider } from "@/shared/application/providers/hash-provider";
 
 export namespace SignUpUsecase {
   export type Input = {
@@ -19,7 +20,10 @@ export namespace SignUpUsecase {
   }
 
   export class UseCase {
-    constructor(private userRepository: UserRepository.Repository) { }
+    constructor(
+      private userRepository: UserRepository.Repository,
+      private hashProvider: HashProvider
+    ) { }
 
     async execute(input: Input): Promise<Output> {
       const { name, email, password } = input;
@@ -29,8 +33,9 @@ export namespace SignUpUsecase {
       }
 
       await this.userRepository.emailExists(email);
+      const hashPassword = await this.hashProvider.generateHash(password);
 
-      const entity = new UserEntity(input);
+      const entity = new UserEntity(Object.assign(input, { password: hashPassword }));
 
       await this.userRepository.insert(entity);
 
