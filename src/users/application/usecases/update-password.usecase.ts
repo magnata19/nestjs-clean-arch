@@ -1,7 +1,6 @@
 import { UserRepository } from "@/users/domain/repositories/user.repository";
 import { UserOutput, UserOutputMapper } from "../dtos/user-output";
 import { UseCase as DefaultUseCase } from "@/shared/application/usecases/use-case";
-import { BadRequestError } from "@/shared/application/errors/bad-request-error";
 import { InvalidPasswordError } from "@/shared/application/errors/invalid-password.error";
 import { HashProvider } from "@/shared/application/providers/hash-provider";
 
@@ -27,6 +26,9 @@ export namespace UpdatePasswordUsecase {
       }
 
       const checkedPassword = await this.hashProvider.compareHash(input.oldPassword, entity.password);
+      if (!checkedPassword) {
+        throw new InvalidPasswordError("Old password does not match.");
+      }
       const hashedPassword = await this.hashProvider.generateHash(input.password);
       entity.updatePassword(hashedPassword);
       await this.userRepository.update(entity);
