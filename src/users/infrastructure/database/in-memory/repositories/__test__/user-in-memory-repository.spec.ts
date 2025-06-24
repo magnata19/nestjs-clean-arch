@@ -23,7 +23,7 @@ describe("UserInMemoryRepository Unit Tests", () => {
     }))
 
     await sut.insert(user);
-    const result = await sut.findByEmail(user.getEmail);
+    const result = await sut.findByEmail(user.email);
 
     expect(user.toJSON()).toStrictEqual(result.toJSON())
   })
@@ -33,7 +33,7 @@ describe("UserInMemoryRepository Unit Tests", () => {
 
     await sut.insert(user);
 
-    expect(sut.emailExists(user.getEmail)).rejects.toThrow(new ConflictError(`User with email ${user.getEmail} already exists`));
+    expect(sut.emailExists(user.email)).rejects.toThrow(new ConflictError(`User with email ${user.email} already exists`));
   })
 
   it('should find a user by email - EmailExists', async () => {

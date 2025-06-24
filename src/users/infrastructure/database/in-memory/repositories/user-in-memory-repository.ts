@@ -11,14 +11,14 @@ export default class UserInMemoryRepository extends InMemorySearchableRepository
   searchableFields: string[] = ['name', 'createdAt'];
 
   async findByEmail(email: string): Promise<UserEntity> {
-    const user = this.items.find(item => item.getEmail === email);
+    const user = this.items.find(item => item.email === email);
     if (!user) {
       throw new NotFoundError(`User not found with email: ${email}`);
     }
     return user;
   }
   async emailExists(email: string): Promise<void> {
-    const user = this.items.find(item => item.getEmail === email);
+    const user = this.items.find(item => item.email === email);
     if (user) {
       throw new ConflictError(`User with email ${email} already exists`);
     }

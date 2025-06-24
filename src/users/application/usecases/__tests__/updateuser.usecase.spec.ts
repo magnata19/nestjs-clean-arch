@@ -36,8 +36,8 @@ describe("UpdateUserUsecase unit test", () => {
     expect(result).toStrictEqual({
       id: items[0]._id,
       name: "Davidson",
-      email: items[0].getEmail,
-      password: items[0].getPassword,
+      email: items[0].email,
+      password: items[0].password,
       createdAt: items[0].createdAt,
     })
   })

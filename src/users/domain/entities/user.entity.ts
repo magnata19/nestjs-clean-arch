@@ -18,7 +18,7 @@ export class UserEntity extends Entity {
 
   updateName(value: string): void {
     UserEntity.validate({ ...this.props, name: value })
-    this.setName = value;
+    this.name = value;
   }
 
   updatePassword(value: string): void {
@@ -26,19 +26,19 @@ export class UserEntity extends Entity {
     this.setPassword = value
   }
 
-  get getName() {
+  get name() {
     return this.props.name;
   }
 
-  private set setName(value: string) {
+  private set name(value: string) {
     this.props.name = value;
   }
 
-  get getEmail() {
+  get email() {
     return this.props.email;
   }
 
-  get getPassword() {
+  get password() {
     return this.props.password;
   }
 

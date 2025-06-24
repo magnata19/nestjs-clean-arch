@@ -26,7 +26,7 @@ describe('UserEntity unit test', () => {
   })
 
   it('Setter name field', () => {
-    sut['setName'] = 'Davidson'
+    sut['name'] = 'Davidson'
     expect(sut.props.name).toEqual("Davidson")
     expect(typeof sut.props.name).toBe("string");
   })
