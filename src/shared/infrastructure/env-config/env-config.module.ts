@@ -9,7 +9,8 @@ import { join } from 'node:path';
 
     ]
   })],
-  providers: [EnvConfigService]
+  providers: [EnvConfigService],
+  exports: [EnvConfigService]
 })
 export class EnvConfigModule extends ConfigModule {
   static forRoot(): Promise<DynamicModule> {
